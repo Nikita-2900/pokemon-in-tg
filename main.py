@@ -13,8 +13,17 @@ def help(message):
         bot.reply_to(message, """хочешь поиграть в pokemon? Тогда:
         /helps - помощь
         /go - создать покемона
+        /info - информация о покемоне
         /attack - атаковать противника
         /korm - покормить покемона""")
+
+@bot.message_handler(commands=['info'])
+def infos(message):
+        if message.from_user.username in Pokemon.pokemons.keys():
+            pok = Pokemon.pokemons[message.from_user.username]
+            bot.send_message(message.chat.id, pok.info())
+        else:
+            bot.send_message(message.chat.id, "У вас нет покемона")
 
 @bot.message_handler(commands=['go'])
 def go(message):
