@@ -15,7 +15,7 @@ def help(message):
         /go - создать покемона
         /info - информация о покемоне
         /attack - атаковать противника
-        /korm - покормить покемона""")
+        /feed - покормить покемона""")
 
 @bot.message_handler(commands=['info'])
 def infos(message):
@@ -41,10 +41,16 @@ def go(message):
     else:
         bot.reply_to(message, "Ты уже создал себе покемона")
 
-@bot.message_handler(commands=['korm'])
-def korm(message):
+#@bot.message_handler(commands=['korm'])
+# def korm(message):
+#         pok = Pokemon.pokemons[message.from_user.username]
+#         res = pok.korm()
+#         bot.send_message(message.chat.id, res)
+
+@bot.message_handler(commands=['feed'])
+def feed(message):
         pok = Pokemon.pokemons[message.from_user.username]
-        res = pok.korm()
+        res = pok.feed()
         bot.send_message(message.chat.id, res)
 
 @bot.message_handler(commands=['attack'])
