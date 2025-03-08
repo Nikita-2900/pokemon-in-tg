@@ -15,7 +15,8 @@ def help(message):
         /go - создать покемона
         /info - информация о покемоне
         /attack - атаковать противника
-        /feed - покормить покемона""")
+        /feed - покормить покемона
+        /change - попытаться поменять покемона""")
 
 @bot.message_handler(commands=['info'])
 def infos(message):
@@ -40,6 +41,22 @@ def go(message):
         bot.send_photo(message.chat.id, pokemon.show_img())
     else:
         bot.reply_to(message, "Ты уже создал себе покемона")
+
+@bot.message_handler(commands=['change'])
+def change(message):
+    chance = randint(1,15)
+    if chance <= 3:
+        if chance == 1:
+            pokemon = Pokemon(message.from_user.username)
+        elif chance == 2:
+            pokemon = Wizard(message.from_user.username)
+        elif chance == 3:
+            pokemon = Fighter(message.from_user.username)
+        #pokemon = Pokemon(message.from_user.username)
+        bot.send_message(message.chat.id, pokemon.info())
+        bot.send_photo(message.chat.id, pokemon.show_img())
+    else:
+        bot.reply_to(message, "Ты не смог поменять покемона")
 
 #@bot.message_handler(commands=['korm'])
 # def korm(message):
