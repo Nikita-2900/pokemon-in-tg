@@ -50,18 +50,21 @@ class Pokemon:
         return self.img
     
     def attack(self, enemy):
-        if isinstance(enemy, Wizard):
-            chance = randint(1,5)
-            if chance == 1:
-                return "Покемон-волшебник применил щит в сражении"
-        if enemy.hp > self.power:
-            enemy.hp -= self.power
-            return f"""Сражение @{self.pokemon_trainer} с @{enemy.pokemon_trainer}
-            Здоровье @{enemy.pokemon_trainer} теперь {enemy.hp}"""
+        if self.hp > 0:
+            if isinstance(enemy, Wizard):
+                chance = randint(1,5)
+                if chance == 1:
+                    return "Покемон-волшебник применил щит в сражении"
+            if enemy.hp > self.power:
+                enemy.hp -= self.power
+                return f"""Сражение @{self.pokemon_trainer} с @{enemy.pokemon_trainer}
+                Здоровье @{enemy.pokemon_trainer} теперь {enemy.hp}"""
+            else:
+                enemy.hp = 0
+                return f"Победа @{self.pokemon_trainer} над @{enemy.pokemon_trainer}! "
         else:
-            enemy.hp = 0
-            return f"Победа @{self.pokemon_trainer} над @{enemy.pokemon_trainer}! "
-    
+            return "Здоровье вашего покемона не позволяет вам участвовать в сражениях"
+        
     # def korm(self):
     #     lek = randint(1,10)
     #     self.hp += lek
@@ -85,11 +88,14 @@ class Wizard(Pokemon):
 
 class Fighter(Pokemon):
     def attack(self, enemy):
-        super_power = randint(5,15)
-        self.power += super_power
-        result = super().attack(enemy)
-        self.power -= super_power
-        return result + f"\nБоец применил супер-аттаку силой:{super_power}"
+        if self.hp > 0:
+            super_power = randint(5,15)
+            self.power += super_power
+            result = super().attack(enemy)
+            self.power -= super_power
+            return result + f"\nБоец применил супер-аттаку силой:{super_power}"
+        else:
+            return "Здоровье вашего покемона не позволяет вам участвовать в сражениях"
     def info(self):
         return "У тебя покемон-боец\n\n" + super().info()
     def feed(self, feed_interval = 20, hp_increase = 20):
